@@ -27,6 +27,7 @@ int main(int argc, char *argv[]) {
         {"pkg",          required_argument, 0, 'p'},
         {"library",      required_argument, 0, 'l'},
         {"auto_launch",  required_argument, 0, 'a'},
+        {"launcher",     required_argument, 0, 'L'},
         {"remap",        required_argument, 0, 'r'},
         {"help",         required_argument, 0, 'h'},
         {0,              0,                 0,  0 }
