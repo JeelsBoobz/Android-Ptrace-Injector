@@ -9,8 +9,7 @@ void print_help() {
     printf("Options:\n");
     printf("  -p, --pkg <package>         Set the package name\n");
     printf("  -l, --library <library>     Set the library path\n");
-    printf("  -a, --auto_launch           Enable auto launch\n");
-    printf("  --launcher <launcher>       Set the launcher (required with --auto_launch)\n");
+    printf("  --launcher <launcher>       Set the launcher \n");
     printf("  -r, --remap                 Enable remap\n");
     printf("  -h, --help                  Show this help message\n");
 }
@@ -26,7 +25,6 @@ int main(int argc, char *argv[]) {
     struct option long_options[] = {
         {"pkg",          required_argument, 0, 'p'},
         {"library",      required_argument, 0, 'l'},
-        {"auto_launch",  required_argument, 0, 'a'},
         {"launcher",     required_argument, 0, 'L'},
         {"remap",        required_argument, 0, 'r'},
         {"help",         required_argument, 0, 'h'},
@@ -34,7 +32,7 @@ int main(int argc, char *argv[]) {
     };
 
     int long_index = 0;
-    while ((opt = getopt_long(argc, argv, "p:l:aL:rh", long_options, &long_index)) != -1) {
+    while ((opt = getopt_long(argc, argv, "p:l:L:rh", long_options, &long_index)) != -1) {
         switch (opt) {
             case 'p':
                 native_pkg = optarg;
@@ -42,10 +40,8 @@ int main(int argc, char *argv[]) {
             case 'l':
                 native_library = optarg;
                 break;
-            case 'a':
-                auto_launch = true;
-                break;
             case 'L':
+                auto_launch = true;
                 launcher_activity = optarg;
                 break;
             case 'r':
@@ -57,18 +53,19 @@ int main(int argc, char *argv[]) {
                 return 0;
         }
     }
-    
-    LOGI("[+] Package: %s", native_pkg);
-    LOGI("[+] Library: %s", native_library);
-    LOGI("[+] Auto Launch: %s", auto_launch ? "Enabled" : "Disabled");
-    LOGI("[+] Launcher: %s", launcher_activity);
-    LOGI("[+] Remap: %s", remap ? "Enabled" : "Disabled");
 
     if (!native_pkg || !native_library || (auto_launch && !launcher_activity)) {
         LOGE("[-] Missing required arguments");
         print_help();
         return 0;
     }
+    
+    LOGI("[+] Package: %s", native_pkg);
+    LOGI("[+] Library: %s", native_library);
+    if (launcher) {
+        LOGI("[+] Auto Launch: %s", launcher_activity);
+    }
+    LOGI("[+] Remap: %s", remap ? "Enabled" : "Disabled");
 
     // Launch Game if option is used
     if (auto_launch) {
