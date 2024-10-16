@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <cstdlib>
 
-#define TAG "RevenyInjector"
+#define TAG "PtraceInjector"
 
 enum daLogType {
     daDEBUG = 3,
