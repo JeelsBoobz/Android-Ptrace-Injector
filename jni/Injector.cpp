@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
     
     LOGI("[+] Package: %s", native_pkg);
     LOGI("[+] Library: %s", native_library);
-    if (launcher) {
+    if (launcher_activity) {
         LOGI("[+] Auto Launch: %s", launcher_activity);
     }
     LOGI("[+] Remap: %s", remap ? "Enabled" : "Disabled");
