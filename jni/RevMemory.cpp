@@ -145,7 +145,7 @@ bool RevMemory::process_virtual_memory(pid_t pid, void *address, void *buffer, s
 }
 
 void RevMemory::launch_app(const char *packageName) {
-    std::string command = "adb shell am start -n $(adb shell cmd package resolve-activity --brief " + packageName + " | tail -n 1) > /dev/null";
+    std::string command = "adb shell sh -c 'am start -n $(cmd package resolve-activity --brief " + std::string(packageName) + " | tail -n 1)' > /dev/null";
     LOGI("[+] Launch Command: %s", command.c_str());
 
     system(command.c_str());
