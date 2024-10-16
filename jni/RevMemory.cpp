@@ -145,7 +145,7 @@ bool RevMemory::process_virtual_memory(pid_t pid, void *address, void *buffer, s
 }
 
 void RevMemory::launch_app(const char *packageName) {
-    std::string command = "am start -n $(cmd package resolve-activity --brief " + std::string(packageName) + " | tail -n 1) > /dev/null";
+    std::string command = "am start $(cmd package resolve-activity --brief " + std::string(packageName) + " | tail -n 1) > /dev/null";
     LOGI("[+] Launch App: %s", packageName);
 
     system(command.c_str());
