@@ -9,7 +9,7 @@ void print_help() {
     printf("Options:\n");
     printf("  -p, --pkg <package>         Set the package name\n");
     printf("  -l, --library <library>     Set the library path\n");
-    printf("  --launcher <launcher>       Set the launcher \n");
+    printf("  -a, --auto_launch           Enable auto launch\n");
     printf("  -r, --remap                 Enable remap\n");
     printf("  -h, --help                  Show this help message\n");
 }
@@ -25,14 +25,14 @@ int main(int argc, char *argv[]) {
     struct option long_options[] = {
         {"pkg",          required_argument, 0, 'p'},
         {"library",      required_argument, 0, 'l'},
-        {"launcher",     required_argument, 0, 'L'},
+        {"auto_launch",  required_argument, 0, 'a'},
         {"remap",        required_argument, 0, 'r'},
         {"help",         required_argument, 0, 'h'},
         {0,              0,                 0,  0 }
     };
 
     int long_index = 0;
-    while ((opt = getopt_long(argc, argv, "p:l:L:rh", long_options, &long_index)) != -1) {
+    while ((opt = getopt_long(argc, argv, "p:l:a:rh", long_options, &long_index)) != -1) {
         switch (opt) {
             case 'p':
                 native_pkg = optarg;
@@ -40,9 +40,8 @@ int main(int argc, char *argv[]) {
             case 'l':
                 native_library = optarg;
                 break;
-            case 'L':
+            case 'a':
                 auto_launch = true;
-                launcher_activity = optarg;
                 break;
             case 'r':
                 remap = true;
@@ -54,7 +53,7 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    if (!native_pkg || !native_library || (auto_launch && !launcher_activity)) {
+    if (!native_pkg || !native_library) {
         LOGE("[-] Missing required arguments");
         print_help();
         return 0;
@@ -62,14 +61,12 @@ int main(int argc, char *argv[]) {
     
     LOGI("[+] Package: %s", native_pkg);
     LOGI("[+] Library: %s", native_library);
-    if (launcher_activity) {
-        LOGI("[+] Auto Launch: %s", launcher_activity);
-    }
+    LOGI("[+] Auto Launch: %s", auto_launch ? "Enabled" : "Disabled");
     LOGI("[+] Remap: %s", remap ? "Enabled" : "Disabled");
 
     // Launch Game if option is used
     if (auto_launch) {
-        RevMemory::launch_app(launcher_activity);
+        RevMemory::launch_app(native_pkg);
     }
 
     // Wait until the process is found
