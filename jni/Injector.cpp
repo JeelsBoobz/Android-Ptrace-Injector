@@ -25,14 +25,13 @@ int main(int argc, char *argv[]) {
     struct option long_options[] = {
         {"pkg",          required_argument, 0, 'p'},
         {"library",      required_argument, 0, 'l'},
-        {"auto_launch",  required_argument, 0, 'a'},
-        {"remap",        required_argument, 0, 'r'},
-        {"help",         required_argument, 0, 'h'},
-        {0,              0,                 0,  0 }
+        {"auto_launch",  0,                 0, 'a'},
+        {"remap",        0,                 0, 'r'},
+        {"help",         0,                 0, 'h'}
     };
 
     int long_index = 0;
-    while ((opt = getopt_long(argc, argv, "p:l:a:r:h", long_options, &long_index)) != -1) {
+    while ((opt = getopt_long(argc, argv, "p:l:a:rh", long_options, &long_index)) != -1) {
         switch (opt) {
             case 'p':
                 native_pkg = optarg;
